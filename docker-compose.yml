@@ -2,9 +2,15 @@ version: '3'
 services:
   opencart:
     build: tools
-    user: 1000:1000
-    ports:
-      - "80:80"
+    # user: 1000:1000
+    labels:
+      - traefik.http.routers.seaknot-opencart-5unj9z-3-web.rule=Host(`seaknot-opencart-5unj9z-237a90-192-168-137-145.traefik.me`)
+      - traefik.http.routers.seaknot-opencart-5unj9z-3-web.entrypoints=web
+      - traefik.http.services.seaknot-opencart-5unj9z-3-web.loadbalancer.server.port=80
+      - traefik.http.routers.seaknot-opencart-5unj9z-3-web.service=seaknot-opencart-5unj9z-3-web
+      - traefik.enable=true
+    networks:
+      - dokploy-network
     volumes:
       - ./upload:/var/www/html
     depends_on:
@@ -21,30 +27,32 @@ services:
 
   mysql:
     image: mysql:5.7
-    ports:
-      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=opencart
       - MYSQL_DATABASE=opencart
 
-  adminer:
-    image: adminer:latest
-    environment:
-      ADMINER_DEFAULT_SERVER: mysql
-    depends_on:
-      - mysql
-    ports:
-      - "8080:8080"
+  # adminer:
+  #   image: adminer:latest
+  #   environment:
+  #     ADMINER_DEFAULT_SERVER: mysql
+  #   depends_on:
+  #     - mysql
+  #   ports:
+  #     - "8080:8080"
 
-  redis:
-    image: redis:latest
+  # redis:
+  #   image: redis:latest
 
-  memcached:
-    image: memcached:latest
+  # memcached:
+  #   image: memcached:latest
 
-  postgres:
-    image: postgres:latest
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=opencart
-      - POSTGRES_DB=opencart
+  # postgres:
+  #   image: postgres:latest
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=opencart
+  #     - POSTGRES_DB=opencart
+
+networks:
+  dokploy-network:
+    external: true
