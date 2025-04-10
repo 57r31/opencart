@@ -2,7 +2,7 @@ version: '3'
 services:
   opencart:
     build: tools
-    # user: 1000:1000
+    user: 0:0
     labels:
       - traefik.enable=true
       - traefik.http.routers.seaknot-opencart-5unj9z-3-web.rule=Host(`seaknot-opencart-5unj9z-237a90-192-168-137-145.traefik.me`)
