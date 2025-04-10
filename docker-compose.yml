@@ -4,11 +4,11 @@ services:
     build: tools
     # user: 1000:1000
     labels:
+      - traefik.enable=true
       - traefik.http.routers.seaknot-opencart-5unj9z-3-web.rule=Host(`seaknot-opencart-5unj9z-237a90-192-168-137-145.traefik.me`)
+      - traefik.http.routers.seaknot-opencart-5unj9z-3-web.service=seaknot-opencart-5unj9z-3-web
       - traefik.http.routers.seaknot-opencart-5unj9z-3-web.entrypoints=web
       - traefik.http.services.seaknot-opencart-5unj9z-3-web.loadbalancer.server.port=80
-      - traefik.http.routers.seaknot-opencart-5unj9z-3-web.service=seaknot-opencart-5unj9z-3-web
-      - traefik.enable=true
     networks:
       - dokploy-network
     volumes:
@@ -26,6 +26,9 @@ services:
                apache2-foreground"
 
   mysql:
+    # port: 3306
+    networks:
+      - dokploy-network
     image: mysql:5.7
     environment:
       - MYSQL_ROOT_PASSWORD=opencart
