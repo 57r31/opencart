@@ -2,8 +2,8 @@ version: '3'
 services:
   opencart:
     build: tools
-    ports: 
-      - "8081:80"
+    networks:
+      - dokploy-network
     volumes:
       - ./upload:/var/www/html
     depends_on:
