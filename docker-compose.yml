@@ -2,7 +2,8 @@ version: '3'
 services:
   opencart:
     build: tools
-    port: 80:8081
+    ports: 
+      - "80:8081"
     volumes:
       - ./upload:/var/www/html
     depends_on:
